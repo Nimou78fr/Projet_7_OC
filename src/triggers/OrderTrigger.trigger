@@ -1,6 +1,17 @@
-trigger OrderTrigger on Order (before insert, before update) {
-    // TODO: Verifier érifier si la commande répond aux critères
-    //  de validation. Cette méthode doit s'assurer que le nombre minimum de produits est respecté en fonction du type
-    //  de client (Particulier ou Professionnel).
-    //  TODO: Selectionner le meilleur transporteur selon le choix fait sur la commande
+trigger OrderTrigger on Order (before update) {
+    for (Order o : Trigger.new) {
+        Order old = Trigger.oldMap.get(o.Id);
+        if (old.Status != 'Activated' && o.Status == 'Activated') {
+            
+            Integer nb = [SELECT COUNT() FROM OrderItem WHERE OrderId = :o.Id];
+            Account acc = [SELECT Type_Client__c FROM Account WHERE Id = :o.AccountId];
+
+            if (acc.Type_Client__c == 'Particulier' && nb < 3) {
+                o.addError('Minimum 3 produits requis');
+            }
+            if (acc.Type_Client__c == 'Professionnel' && nb < 5) {
+                o.addError('Minimum 5 produits requis');
+            }
+        }
+    }
 }

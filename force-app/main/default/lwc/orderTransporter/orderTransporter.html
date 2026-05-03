@@ -1,0 +1,90 @@
+<template>
+    <lightning-card title="Choix du transporteur">
+
+        <div class="slds-p-around_medium">
+
+            
+            <lightning-combobox
+                label="Critère"
+                options={deliveryOptions}
+                value={selectedCritere}
+                onchange={handleChange}>
+            </lightning-combobox>
+
+            
+            <!--<div class="slds-text-align_center slds-m-top_medium">
+                <lightning-button
+                    label="Confirmer"
+                    variant="brand"
+                    onclick={handleConfirm}
+                    disabled={isConfirmDisabled}>
+                </lightning-button>
+            </div>-->
+
+          
+            <template if:true={isLoading}>
+                <lightning-spinner size="small"></lightning-spinner>
+            </template>
+
+            <template if:true={transporteur}>
+                <div class="slds-box slds-m-top_medium">
+                    <p><strong>Nom :</strong> {transporteur.Transporteur__r.Name}</p>
+                    <p><strong>Prix :</strong> {transporteur.Tarifs__c} €</p>
+                    <p><strong>Délai :</strong> {transporteur.D_lai_de_Livraison_jours__c} jours</p>
+                    <p><strong>Pays :</strong> {transporteur.Pays__c}</p>
+                </div>
+
+                <div class="slds-text-align_center slds-m-top_medium">
+                    <lightning-button
+                        label="Valider le transporteur"
+                        variant="success"
+                        onclick={handleValidateTransporteur}
+                        disabled={isValidateDisabled}>
+                    </lightning-button>
+                </div>
+            </template>
+
+           
+            <template if:true={hasTransporteurs}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={transporteurs}
+                    columns={columns}
+                    onrowselection={handleRowSelection}>
+                </lightning-datatable>
+            </template>
+
+           
+            <template if:true={validatedTransporteur}>
+                <div class="slds-box slds-m-top_medium slds-theme_success">
+
+                    <p class="slds-text-heading_small">
+                        
+                    </p>
+
+                    <p><strong>Nom :</strong> {validatedTransporteur.transporteurName}</p>
+                    <p><strong>Pays :</strong> {validatedTransporteur.Pays__c}</p>
+                    <p><strong>Prix :</strong> {validatedTransporteur.Tarifs__c} €</p>
+                    <p><strong>Délai :</strong> {validatedTransporteur.D_lai_de_Livraison_jours__c} jours</p>
+
+                    <div class="slds-m-top_medium">
+                        <lightning-button
+                            label="Modifier le transporteur"
+                            variant="neutral"
+                            onclick={handleEdit}>
+                        </lightning-button>
+                    </div>
+
+                </div>
+            </template>
+
+          
+            <template if:true={errorMessage}>
+                <div class="slds-text-color_error slds-text-align_center slds-m-top_medium">
+                    {errorMessage}
+                </div>
+            </template>
+
+        </div>
+    </lightning-card>
+</template>

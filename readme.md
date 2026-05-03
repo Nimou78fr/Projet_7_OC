@@ -1,17 +1,18 @@
-# Complétez un Back-End en Apex pour Gérer des Données
+# Salesforce DX Project: Next Steps
 
-## Contexte du Projet
+Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
 
-Henri, responsable du Suivi des livraisons au sein du service client, cherche à améliorer leur système CRM en développant une base de données Salesforce intégrée. Ce projet consiste à corriger et compléter un code existant en Apex pour répondre aux besoins spécifiques de gestion des commandes, de livraison, et de suivi des transporteurs.
+## How Do You Plan to Deploy Your Changes?
 
-## Objectif
+Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
 
-Votre mission est de concevoir et de mettre en place cette base de données, en vous appuyant sur un modèle de données existant et un dépôt de code partiellement développé. Vous devrez implémenter des vérifications de commandes, personnaliser une interface de lancement de livraison en LWC, et appliquer les meilleures pratiques Salesforce. Il sera également nécessaire de modifier le modèle de données pour s'assurer qu'il prend en compte toutes les exigences du projet.
+## Configure Your Salesforce DX Project
 
-## Dossier `Data`
+The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
 
-Le dossier `Data` contient les fichiers CSV nécessaires pour les transporteurs et les tarifs associés. Ces données doivent être importées dans Salesforce, et il est possible que vous ayez à les adapter pour faciliter leur importation.
+## Read All About It
 
-- **Transporteur.csv** : Liste des transporteurs et les types de clients desservis.
-- **Prix.csv** : Tarifs de livraison et délais associés par pays.
-
+- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
+- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
+- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
+- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)

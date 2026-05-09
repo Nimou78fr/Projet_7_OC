@@ -47,11 +47,11 @@ export default class OrderTransporter extends LightningElement {
     }
 
     get isValidateDisabled() {
-        return !this.selectedTransporteur;
+        return !this.transporteur;
     }
 
     get hasTransporteurs() {
-        return this.transporteurs && this.transporteurs.length > 0;
+        return this.transporteurs?.length > 0;
     }
 
     handleChange(event) {
@@ -147,7 +147,7 @@ export default class OrderTransporter extends LightningElement {
 
     handleValidateTransporteur() {
 
-    if (!this.selectedTransporteur) {
+    if (!this.transporteur) {
         this.errorMessage = "Veuillez sélectionner un transporteur";
         return;
     }
@@ -156,12 +156,12 @@ export default class OrderTransporter extends LightningElement {
 
     updateOrderTransporteur({
         orderId: this.recordId,
-        transporteurName: this.selectedTransporteur.transporteurName
+        transporteurPrix: this.transporteur
     })
     .then(() => {
         this.errorMessage = null;
 
-              this.validatedTransporteur = this.selectedTransporteur;
+              this.validatedTransporteur = this.transporteur;
 
                this.transporteurs = [];
                 this.transporteur = null;

@@ -4,48 +4,48 @@ public class OrderServiceTest {
     @isTest
     static void testMinimumProductsParticulier() {
 
-        Account acc = new Account(
-            Name = 'Client Test',
-            Type_Client__c = 'Particulier'
+        Account acc = TestDataFactory.createAccount(
+            'Client Test',
+            'Particulier'
         );
         insert acc;
 
         Id standardPricebookId = Test.getStandardPricebookId();
 
-        Product2 prod = new Product2(
-            Name = 'Produit Test',
-            IsActive = true
+        Product2 prod = TestDataFactory.createProduct(
+            'Produit Test',
+            true
         );
         insert prod;
 
-        PricebookEntry pbe = new PricebookEntry(
-            Pricebook2Id = standardPricebookId,
-            Product2Id = prod.Id,
-            UnitPrice = 100,
-            IsActive = true
+        PricebookEntry pbe = TestDataFactory.createPricebookEntry(
+            standardPricebookId,
+            prod.Id,
+            100,
+            true
         );
         insert pbe;
 
-        Order ord = new Order(
-            AccountId = acc.Id,
-            Status = 'Draft',
-            EffectiveDate = Date.today(),
-            Pricebook2Id = standardPricebookId
+        Order ord = TestDataFactory.createOrder(
+            acc.Id,
+            'Draft',
+            Date.today(),
+            standardPricebookId
         );
         insert ord;
 
-        OrderItem oi1 = new OrderItem(
-            OrderId = ord.Id,
-            PricebookEntryId = pbe.Id,
-            Quantity = 1,
-            UnitPrice = 100
+        OrderItem oi1 = TestDataFactory.createOrderItem(
+            ord.Id,
+            pbe.Id,
+            1,
+            100
         );
 
-        OrderItem oi2 = new OrderItem(
-            OrderId = ord.Id,
-            PricebookEntryId = pbe.Id,
-            Quantity = 1,
-            UnitPrice = 100
+        OrderItem oi2 = TestDataFactory.createOrderItem(
+            ord.Id,
+            pbe.Id,
+            1,
+            100
         );
 
         insert new List<OrderItem>{oi1, oi2};

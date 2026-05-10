@@ -5,27 +5,27 @@ private class TransporteurServiceTest {
     private static void createData() {
 
         
-        Account accPart = new Account(
-            Name = 'Client Particulier',
-            Type_Client__c = 'Particulier'
+        Account accPart = TestDataFactory.createAccount(
+            'Client Particulier',
+            'Particulier'
         );
 
-        Account accPro = new Account(
-            Name = 'Client Pro',
-            Type_Client__c = 'Professionnel'
+        Account accPro = TestDataFactory.createAccount(
+            'Client Pro',
+            'Professionnel'
         );
 
         insert new List<Account>{accPart, accPro};
 
         // Transporteurs
-        Transporteur__c tPart = new Transporteur__c(
-            Name = 'Transporteur Part',
-            Type_Client__c = 'Particulier'
+        Transporteur__c tPart = TestDataFactory.createTransporteur(
+            'Transporteur Part',
+            'Particulier'
         );
 
-        Transporteur__c tPro = new Transporteur__c(
-            Name = 'Transporteur Pro',
-            Type_Client__c = 'Professionnel'
+        Transporteur__c tPro = TestDataFactory.createTransporteur(
+            'Transporteur Pro',
+            'Professionnel'
         );
 
         insert new List<Transporteur__c>{tPart, tPro};
@@ -34,31 +34,31 @@ private class TransporteurServiceTest {
         List<TransporteurPrix__c> tarifs = new List<TransporteurPrix__c>{
 
             // Particulier
-            new TransporteurPrix__c(
-                Transporteur__c = tPart.Id,
-                Pays__c = 'France',
-                Tarifs__c = 10,
-                D_lai_de_Livraison_jours__c = 5
+            TestDataFactory.createTarif(
+                tPart.Id,
+                'France',
+                10,
+                5
             ),
-            new TransporteurPrix__c(
-                Transporteur__c = tPart.Id,
-                Pays__c = 'France',
-                Tarifs__c = 15,
-                D_lai_de_Livraison_jours__c = 2
+            TestDataFactory.createTarif(
+                tPart.Id,
+                'France',
+                15,
+                2
             ),
 
             // Professionnel
-            new TransporteurPrix__c(
-                Transporteur__c = tPro.Id,
-                Pays__c = 'France',
-                Tarifs__c = 12,
-                D_lai_de_Livraison_jours__c = 1
+            TestDataFactory.createTarif(
+                tPro.Id,
+                'France',
+                12,
+                1
             ),
-            new TransporteurPrix__c(
-                Transporteur__c = tPro.Id,
-                Pays__c = 'France',
-                Tarifs__c = 18,
-                D_lai_de_Livraison_jours__c = 4
+            TestDataFactory.createTarif(
+                tPro.Id,
+                'France',
+                18,
+                4
             )
         };
 

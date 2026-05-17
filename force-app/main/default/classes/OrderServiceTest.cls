@@ -4,66 +4,168 @@ public class OrderServiceTest {
     @isTest
     static void testMinimumProductsParticulier() {
 
-        Account acc = TestDataFactory.createAccount(
-            'Client Test',
-            'Particulier'
+        // Création Account particulier
+        Account acc = new Account(
+            Name = 'Client Particulier',
+            Type_Client__c = 'Particulier'
         );
         insert acc;
 
+        // Standard Pricebook
         Id standardPricebookId = Test.getStandardPricebookId();
 
-        Product2 prod = TestDataFactory.createProduct(
-            'Produit Test',
-            true
+        // Produit
+        Product2 prod = new Product2(
+            Name = 'Produit Test',
+            IsActive = true
         );
         insert prod;
 
-        PricebookEntry pbe = TestDataFactory.createPricebookEntry(
-            standardPricebookId,
-            prod.Id,
-            100,
-            true
+        // Pricebook Entry
+        PricebookEntry pbe = new PricebookEntry(
+            Pricebook2Id = standardPricebookId,
+            Product2Id = prod.Id,
+            UnitPrice = 100,
+            IsActive = true
         );
         insert pbe;
 
-        Order ord = TestDataFactory.createOrder(
-            acc.Id,
-            'Draft',
-            Date.today(),
-            standardPricebookId
+        // Commande
+        Order ord = new Order(
+            AccountId = acc.Id,
+            Status = 'Draft',
+            EffectiveDate = Date.today(),
+            Pays_Livraison__c = 'France',
+            Pricebook2Id = standardPricebookId
         );
         insert ord;
 
-        OrderItem oi1 = TestDataFactory.createOrderItem(
-            ord.Id,
-            pbe.Id,
-            1,
-            100
+        // Seulement 2 produits
+        List<OrderItem> items = new List<OrderItem>();
+
+        for(Integer i = 0; i < 2; i++) {
+
+            items.add(new OrderItem(
+                OrderId = ord.Id,
+                PricebookEntryId = pbe.Id,
+                Quantity = 1,
+                UnitPrice = 100
+            ));
+        }
+
+        insert items;
+
+        // Recharge l'order pour récupérer le rollup/formula
+        ord = [
+            SELECT Id, Status, nbr_produit__c
+            FROM Order
+            WHERE Id = :ord.Id
+        ];
+
+        Test.startTest();
+
+        ord.Status = 'Activated';
+
+        try {
+
+            update ord;
+
+            System.assert(false,
+                'Une exception devait être levée');
+
+        } catch (DmlException e) {
+
+            System.assert(
+                e.getMessage().contains(
+                    'Minimum 3 produits requis'
+                )
+            );
+        }
+
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testMinimumProductsProfessionnel() {
+
+        // Création Account professionnel
+        Account acc = new Account(
+            Name = 'Client Professionnel',
+            Type_Client__c = 'Professionnel'
         );
+        insert acc;
 
-        OrderItem oi2 = TestDataFactory.createOrderItem(
-            ord.Id,
-            pbe.Id,
-            1,
-            100
+        // Standard Pricebook
+        Id standardPricebookId = Test.getStandardPricebookId();
+
+        // Produit
+        Product2 prod = new Product2(
+            Name = 'Produit Pro',
+            IsActive = true
         );
+        insert prod;
 
-        insert new List<OrderItem>{oi1, oi2};
+        // Pricebook Entry
+        PricebookEntry pbe = new PricebookEntry(
+            Pricebook2Id = standardPricebookId,
+            Product2Id = prod.Id,
+            UnitPrice = 100,
+            IsActive = true
+        );
+        insert pbe;
 
-        ord.Status = 'Validée';
+        // Commande
+        Order ord = new Order(
+            AccountId = acc.Id,
+            Status = 'Draft',
+            EffectiveDate = Date.today(),
+            Pays_Livraison__c = 'France',
+            Pricebook2Id = standardPricebookId
+        );
+        insert ord;
 
-       Test.startTest();
+        // Seulement 4 produits
+        List<OrderItem> items = new List<OrderItem>();
 
-try {
-    update ord;
-    System.assert(false, 'Une erreur devait être levée');
-} catch (DmlException e) {
-    System.assert(
-        e.getMessage().contains('minimum'), // adapte au message réel
-        'Le message d’erreur attendu n’est pas correct : ' + e.getMessage()
-    );
-}
+        for(Integer i = 0; i < 4; i++) {
 
-Test.stopTest();
+            items.add(new OrderItem(
+                OrderId = ord.Id,
+                PricebookEntryId = pbe.Id,
+                Quantity = 1,
+                UnitPrice = 100
+            ));
+        }
+
+        insert items;
+
+        // Recharge l'order pour récupérer le rollup/formula
+        ord = [
+            SELECT Id, Status, nbr_produit__c
+            FROM Order
+            WHERE Id = :ord.Id
+        ];
+
+        Test.startTest();
+
+        ord.Status = 'Activated';
+
+        try {
+
+            update ord;
+
+            System.assert(false,
+                'Une exception devait être levée');
+
+        } catch (DmlException e) {
+
+            System.assert(
+                e.getMessage().contains(
+                    'Minimum 5 produits requis'
+                )
+            );
+        }
+
+        Test.stopTest();
     }
 }

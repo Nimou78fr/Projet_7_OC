@@ -11,7 +11,7 @@ public class OrderServiceTest {
         );
         insert acc;
 
-        // Standard Pricebook
+        
         Id standardPricebookId = Test.getStandardPricebookId();
 
         // Produit
@@ -21,7 +21,7 @@ public class OrderServiceTest {
         );
         insert prod;
 
-        // Pricebook Entry
+        
         PricebookEntry pbe = new PricebookEntry(
             Pricebook2Id = standardPricebookId,
             Product2Id = prod.Id,
@@ -40,7 +40,7 @@ public class OrderServiceTest {
         );
         insert ord;
 
-        // Seulement 2 produits
+        
         List<OrderItem> items = new List<OrderItem>();
 
         for(Integer i = 0; i < 2; i++) {
@@ -55,7 +55,7 @@ public class OrderServiceTest {
 
         insert items;
 
-        // Recharge l'order pour récupérer le rollup/formula
+        
         ord = [
             SELECT Id, Status, nbr_produit__c
             FROM Order
@@ -95,7 +95,7 @@ public class OrderServiceTest {
         );
         insert acc;
 
-        // Standard Pricebook
+        
         Id standardPricebookId = Test.getStandardPricebookId();
 
         // Produit
@@ -105,7 +105,7 @@ public class OrderServiceTest {
         );
         insert prod;
 
-        // Pricebook Entry
+        
         PricebookEntry pbe = new PricebookEntry(
             Pricebook2Id = standardPricebookId,
             Product2Id = prod.Id,
@@ -124,7 +124,7 @@ public class OrderServiceTest {
         );
         insert ord;
 
-        // Seulement 4 produits
+       
         List<OrderItem> items = new List<OrderItem>();
 
         for(Integer i = 0; i < 4; i++) {
@@ -139,7 +139,7 @@ public class OrderServiceTest {
 
         insert items;
 
-        // Recharge l'order pour récupérer le rollup/formula
+        
         ord = [
             SELECT Id, Status, nbr_produit__c
             FROM Order

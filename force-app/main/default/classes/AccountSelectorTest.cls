@@ -4,7 +4,7 @@ private class AccountSelectorTest {
     @isTest
     static void testGetAccountById() {
 
-        Account acc = new Account(Name = 'Test Account');
+        Account acc =TestDataFactory.createAccount('Test Account','Professionnel');
         insert acc;
 
         Test.startTest();
